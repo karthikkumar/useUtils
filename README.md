@@ -14,26 +14,28 @@ _React Hooks that I use every day_
 import { useCallback, useEffect, useState } from "react";
 
 const useLocalStorage = (key, defaultValue) => {
-  const [data, setData] = useState();
+  const [data, setData] = useState(() => {
+    if (typeof window === "undefined") {
+      return defaultValue;
+    }
+    try {
+      const existingData = window.localStorage.getItem(key);
+      return existingData ? JSON.parse(existingData) : defaultValue;
+    } catch {
+      return defaultValue;
+    }
+  });
 
   const save = useCallback(
     (value) => {
-      const valueAsString = JSON.stringify(value ?? defaultValue);
-      window.localStorage.setItem(key, valueAsString);
+      if (typeof window !== "undefined") {
+        const valueAsString = JSON.stringify(value ?? defaultValue);
+        window.localStorage.setItem(key, valueAsString);
+      }
     },
     [defaultValue, key]
   );
   const remove = useCallback(() => window.localStorage.removeItem(key), [key]);
-
-  useEffect(() => {
-    const existingData = window.localStorage.getItem(key);
-    if (existingData) {
-      setData(JSON.parse(existingData));
-    } else if (defaultValue) {
-      setData(defaultValue);
-      save();
-    }
-  }, [defaultValue, key, save]);
 
   const onStorageEvent = useCallback(
     (e) => {
