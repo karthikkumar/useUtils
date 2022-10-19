@@ -5,6 +5,7 @@ _React Hooks that I use every day_
 ## 🪝 Hooks
 
 1. [useLocalStorage](#uselocalstorage)
+2. [useResizeObserver](#useresizeobserver)
 
 ## useLocalStorage
 
@@ -61,7 +62,7 @@ const useLocalStorage = (key, defaultValue) => {
 };
 ```
 
-[useLocalStorage.js](./useLocalStorage.js)
+[useLocalStorage.js](./hooks/useLocalStorage.js)
 
 #### Example
 
@@ -135,7 +136,7 @@ function useResizeObserver(element) {
 }
 ```
 
-[useResizeObserver.js](./useResizeObserver.js)
+[useResizeObserver.js](./hooks/useResizeObserver.js)
 
 #### Example
 
