@@ -32,8 +32,10 @@ const useLocalStorage = (key, defaultValue) => {
   const save = useCallback(
     (value) => {
       if (typeof window !== "undefined") {
-        const valueAsString = JSON.stringify(value ?? defaultValue);
+        const valueToSave = value ?? defaultValue;
+        const valueAsString = JSON.stringify(valueToSave);
         window.localStorage.setItem(key, valueAsString);
+        setData(valueToSave);
       }
     },
     [defaultValue, key]
